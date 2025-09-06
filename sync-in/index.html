@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync In - Modern Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="music-player">
+        <header class="player-header">
+            <div class="header-brand">
+                <i class="fas fa-headphones-alt"></i>
+                <h1>Sync In</h1>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search songs, artists, albums..." id="searchInput">
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn-icon theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="player-main">
+            <aside class="sidebar">
+                <nav class="sidebar-nav" id="sidebarNav">
+                    <div class="nav-section">
+                        <h3>Library</h3>
+                        <ul class="nav-list">
+                            <li class="nav-item active" data-view="home">
+                                <i class="fas fa-home"></i>
+                                <span>Home</span>
+                            </li>
+                            <li class="nav-item" data-view="favorites">
+                                <i class="fas fa-heart"></i>
+                                <span>Favorites</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-section">
+                        <h3>Playlists</h3>
+                        <ul class="nav-list" id="playlistList">
+                            </ul>
+                        <button class="btn-icon-text" id="newPlaylistBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>New Playlist</span>
+                        </button>
+                    </div>
+                </nav>
+            </aside>
+
+            <section class="main-view" id="mainView">
+                </section>
+        </main>
+    </div>
+
+    <footer class="player-controls">
+        <div class="song-info">
+            <img src="covers/default.jpg" alt="Album Art" id="songArt">
+            <div class="song-details">
+                <h4 id="songTitle">Select a Song</h4>
+                <p id="songArtist">No artist</p>
+            </div>
+        </div>
+        
+        <div class="playback-container">
+            <div class="playback-buttons">
+                <button class="btn-icon" id="prevBtn"><i class="fas fa-step-backward"></i></button>
+                <button class="btn-icon btn--primary" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                <button class="btn-icon" id="nextBtn"><i class="fas fa-step-forward"></i></button>
+            </div>
+             <div class="progress-container">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="progressBar" class="progress-bar" value="0" step="1">
+                <span id="totalDuration">0:00</span>
+            </div>
+        </div>
+
+        <div class="side-controls">
+             <button class="btn-icon" id="playerFavBtn"><i class="far fa-heart"></i></button>
+             <div class="volume-container">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+            </div>
+        </div>
+
+        <audio id="audioElement"></audio>
+    </footer>
+
+    <div class="modal hidden" id="playlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Playlist</h3>
+                <button class="btn-icon" id="closeModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Playlist Name</label>
+                    <input type="text" class="form-control" id="playlistName" placeholder="My Awesome Playlist">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" id="playlistDescription" placeholder="Description (optional)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelPlaylist">Cancel</button>
+                <button class="btn btn--primary" id="savePlaylist">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
