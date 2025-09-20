@@ -1,55 +1,121 @@
-Sync In - A Modern Web-Based Music Player
-Sync In is a sleek, responsive music player built with vanilla JavaScript, featuring a Node.js back-end that streams full-length, high-quality tracks from the Audius API. The project boasts a clean, modern interface with both light and dark themes, playlist management, and a dynamic search feature.
+# Sync In - A Modern Web-Based Music Player
 
-✨ Core Features
-1.Sleek & Responsive UI: A beautiful, modern interface designed to work flawlessly on both desktop and mobile devices.
+Sync In is a sleek, responsive music player built with vanilla JavaScript, featuring a Node.js back-end that streams full-length, high-quality tracks from YouTube. The project boasts a clean, modern interface with both light and dark themes, playlist management, and a dynamic search feature.
 
-2.Light & Dark Modes: Easily switch between a light or dark theme to suit your preference.
+## Features
 
-3.Full Playback Controls: Standard controls including play, pause, next, previous, a draggable progress bar, and volume adjustment.
+**Core Functionality:**
+- Sleek & Responsive UI: A beautiful, modern interface designed to work flawlessly on both desktop and mobile devices
+- Light & Dark Modes: Easily switch between a light or dark theme to suit your preference
+- Full Playback Controls: Standard controls including play, pause, next, previous, a draggable progress bar, and volume adjustment
+- Dynamic Search: Seamlessly search your local library first, and if no results are found, automatically query YouTube for new music
+- Full-Length Streaming: Integrated with YouTube to provide high-quality, full-length audio streams
+- Playlist Management: Create custom playlists and add songs to them with ease
+- Enhanced Favorites System: Mark any song (local or YouTube) as a "favorite" for quick access in a dedicated view
 
-4.Dynamic Search: Seamlessly search your local library first, and if no results are found, automatically query the vast Audius library for new music.
+**Audio Sources:**
+- Local Music Library: Pre-loaded collection of local audio files
+- YouTube Integration: Search and stream music directly from YouTube
+- Persistent Favorites: YouTube favorites are saved locally and persist between sessions
 
-5.Full-Length Streaming: Integrated with the Audius API to provide legal, high-quality, full-length audio streams, not just 30-second previews.
+## Tech Stack
 
-6.Playlist Management: Create custom playlists and add songs to them with ease.
+**Front-End:**
+- HTML5
+- CSS3 (with extensive use of CSS Variables for easy theming)
+- Vanilla JavaScript (ES6+), organized with a modern class-based structure
 
-7.Favorites System: Mark any song as a "favorite" for quick access in a dedicated view.
+**Back-End:**
+- Node.js
+- Express.js for creating the API server
+- @distube/ytdl-core for YouTube audio extraction
+- youtube-sr for YouTube search functionality
+- CORS for enabling cross-origin requests
 
-🛠️ Tech Stack
+## Installation & Setup
 
-This project is built with a clean and efficient stack, relying on core web technologies without a heavy framework on the front-end.
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (Node Package Manager)
 
-Front-End:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/shashwat-eternal/Sync-in-Music-Player.git
+cd Sync-in-Music-Player
+```
 
-1.HTML5
+### 2. Set up the Back-End
+```bash
+cd sync-in-backend
+npm install
+```
 
-2.CSS3 (with extensive use of CSS Variables for easy theming)
+### 3. Start the Server
+```bash
+node server.js
+```
+The back-end will now be running on http://localhost:3000.
 
-3.Vanilla JavaScript (ES6+), organized with a modern class-based structure.
+### 4. Launch the Front-End
+Navigate back to the root project folder and open `index.html` in your browser. Using a live server extension in your code editor is recommended for the best development experience.
 
-Back-End:
+## Project Structure
+```
+Sync-in-Music-Player/
+├── index.html              # Main HTML file
+├── app.js                  # Frontend JavaScript logic
+├── style.css              # Styling and themes
+├── covers/                # Local album artwork
+├── music/                 # Local music files
+└── sync-in-backend/       # Backend server
+    ├── server.js          # Express server with YouTube integration
+    ├── package.json       # Backend dependencies
+    └── node_modules/      # Backend packages
+```
 
-1.Node.js
+## API Endpoints
 
-2.Express.js for creating the API server.
+- `GET /search?q=query` - Search for music on YouTube
+- `GET /stream?id=videoId` - Stream audio from a YouTube video
+- `GET /health` - Health check endpoint
+- `GET /test/:videoId` - Test if a specific video is accessible
 
-3.Axios for making HTTP requests to the Audius API.
+## Features in Detail
 
-4.CORS for enabling cross-origin requests.
+### YouTube Integration
+- Search YouTube for music with intelligent filtering for music content
+- Stream high-quality audio directly from YouTube videos
+- Automatic fallback and error handling for unavailable content
+- Smart caching to reduce API calls and improve performance
 
+### Enhanced Favorites System
+- Local songs: Favorites stored in song objects
+- YouTube songs: Favorites stored in localStorage for persistence
+- Combined favorites view showing both local and YouTube favorites
+- Visual indicators to distinguish between local and YouTube tracks
 
-To run this project locally, follow these simple steps:
+### Error Handling
+- Graceful handling of unavailable YouTube videos
+- Automatic song skipping for failed tracks
+- Detailed error messages and user feedback
+- Retry mechanisms for temporary network issues
 
-1.Clone the repository
-2.Set up the Back-End
-3.Install the required npm packages: npm install
-4.Start the server:node server.js 
-  The back-end will now be running on http://localhost:3000.
-  Launch the Front-End:
+## Browser Compatibility
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
 
-5.Navigate back to the root project folder :
-Open the index.html file in your browser. 
-Using a live server extension in your code editor is recommended.
+## Known Limitations
+- YouTube video availability can change without notice
+- Some videos may be geo-blocked or have streaming restrictions
+- Requires active internet connection for YouTube features
 
-done !!!!!!
+## Contributing
+Feel free to submit issues, fork the repository, and create pull requests for any improvements.
+
+## License
+This project is open source and available under the MIT License.
+
+## Disclaimer
+This project is for educational purposes. YouTube content is subject to their terms of service and copyright policies.
