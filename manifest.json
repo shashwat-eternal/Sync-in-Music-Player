@@ -1,9 +1,12 @@
 {
+  "id": "com.syncin.musicplayer",
   "name": "Sync In — Music Player",
   "short_name": "Sync In",
   "description": "Mood-reactive music player with local & YouTube music",
   "start_url": "./sync-in/index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0d0e15",
   "theme_color": "#0d0e15",
   "icons": [
@@ -18,6 +21,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "music_ui_mockup.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Sync In Music Player Desktop View"
+    },
+    {
+      "src": "music_ui_mockup.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Sync In Music Player Mobile View"
     }
   ]
 }
