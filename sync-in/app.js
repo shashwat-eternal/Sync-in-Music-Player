@@ -6,7 +6,11 @@
    for the required API key.
    ========================================================================== */
 
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = window.BACKEND_URL || localStorage.getItem('SYNC_IN_BACKEND_URL') || (
+  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === ''
+    ? 'http://localhost:3000'
+    : 'https://sync-in-backend.onrender.com'
+);
 
 /* ---------- small color helpers for the mood field ---------- */
 function rgbToHsl(r, g, b) {
