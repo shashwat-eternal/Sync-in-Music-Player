@@ -1,0 +1,21 @@
+{
+  "name": "Sync In — Music Player",
+  "short_name": "Sync In",
+  "description": "Mood-reactive music player with local & YouTube music",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0e15",
+  "theme_color": "#0d0e15",
+  "icons": [
+    {
+      "src": "covers/default.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "covers/default.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
