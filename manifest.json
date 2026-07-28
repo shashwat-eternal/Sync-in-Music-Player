@@ -35,16 +35,15 @@
   ],
   "screenshots": [
     {
-      "src": "https://shashwat-eternal.github.io/Sync-in-Music-Factor/sync-in/music_ui_mockup.png",
       "src": "https://shashwat-eternal.github.io/Sync-in-Music-Player/sync-in/music_ui_mockup.png",
-      "sizes": "1280x720",
+      "sizes": "1024x1024",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Sync In Desktop Music Player Interface"
     },
     {
       "src": "https://shashwat-eternal.github.io/Sync-in-Music-Player/sync-in/music_ui_mockup.png",
-      "sizes": "1280x720",
+      "sizes": "1024x1024",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Sync In Mobile Music Player Interface"
