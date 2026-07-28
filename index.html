@@ -5,7 +5,12 @@
 <meta http-equiv="refresh" content="0; url=sync-in/">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e15">
-<script>window.location.href = "sync-in/";</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); });
+}
+window.location.href = "sync-in/";
+</script>
 </head>
 <body>
 <p>Redirecting to <a href="sync-in/">Sync In Music Player</a>...</p>
