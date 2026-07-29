@@ -108,11 +108,31 @@ body[data-color-scheme="light"] .mood-blob { opacity: 0.35; mix-blend-mode: mult
 .brand h1 { font-size: 20px; font-weight: 700; }
 .brand span { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; display:block; }
 
-.search-shell { flex:1; max-width: 560px; margin: 0 auto; position: relative; }
+.search-shell { flex:1; max-width: 560px; margin: 0 auto; position: relative; overflow: hidden; border-radius: var(--radius-full); }
 .search-shell input {
   width:100%; padding: 12px 44px 12px 44px; border-radius: var(--radius-full); border: 1px solid var(--panel-border);
   background: var(--panel); backdrop-filter: blur(var(--glass-blur)); color: var(--text); font-size: 14.5px; font-family: var(--font-body);
   transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.search-shell input::-webkit-search-cancel-button,
+.search-shell input::-webkit-search-decoration,
+.search-shell input::-webkit-search-results-button,
+.search-shell input::-webkit-search-results-decoration,
+.search-shell input::-webkit-clear-button,
+.search-shell input::-ms-clear,
+.search-shell input::-ms-reveal,
+input::-webkit-search-cancel-button,
+input::-webkit-clear-button,
+input::-ms-clear,
+input::-ms-reveal {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 .search-shell input::placeholder { color: var(--text-dim); }
 .search-shell input:focus { border-color: rgba(var(--cyan-rgb),0.6); box-shadow: 0 0 0 4px rgba(var(--cyan-rgb),0.12); outline:none; }
