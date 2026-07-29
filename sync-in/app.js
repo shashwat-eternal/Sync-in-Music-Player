@@ -358,6 +358,7 @@ class MusicPlayer {
     this.updatePlayerFavBtn(song.isFavorite);
     this.refreshNowPlayingHighlight();
     this.loadLyricsFor(song);
+    this.updateMediaSession(song);
 
     if (song.type === 'local') {
       this.npArtWrap.classList.remove('is-youtube');
@@ -407,7 +408,44 @@ class MusicPlayer {
   }
 
   togglePlayPause() { this.isPlaying ? this.pauseSong() : this.playSong(); }
-  updatePlayPauseIcon(playing) { this.playIcon.classList.toggle('hidden', playing); this.pauseIcon.classList.toggle('hidden', !playing); }
+  updatePlayPauseIcon(playing) {
+    this.playIcon.classList.toggle('hidden', playing);
+    this.pauseIcon.classList.toggle('hidden', !playing);
+    this.updateMediaSessionState(playing);
+  }
+
+  updateMediaSession(song) {
+    if (!('mediaSession' in navigator) || !song) return;
+    try {
+      const artUrl = new URL(song.art || 'covers/default.jpg', window.location.href).href;
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: song.title || 'Sync In Track',
+        artist: song.artist || 'Sync In',
+        album: song.album || 'Sync In Music',
+        artwork: [
+          { src: artUrl, sizes: '96x96', type: 'image/jpeg' },
+          { src: artUrl, sizes: '128x128', type: 'image/jpeg' },
+          { src: artUrl, sizes: '192x192', type: 'image/jpeg' },
+          { src: artUrl, sizes: '512x512', type: 'image/jpeg' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => this.playSong());
+      navigator.mediaSession.setActionHandler('pause', () => this.pauseSong());
+      navigator.mediaSession.setActionHandler('previoustrack', () => this.prevSong());
+      navigator.mediaSession.setActionHandler('nexttrack', () => this.nextSong());
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime !== undefined) this.seek(details.seekTime);
+      });
+    } catch (e) {
+      console.warn('MediaSession error:', e);
+    }
+  }
+
+  updateMediaSessionState(playing) {
+    if (!('mediaSession' in navigator)) return;
+    try { navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; } catch (e) {}
+  }
 
   handleTrackEnded() {
     if (this.repeatMode === 'one') { this.seek(0); this.playSong(); return; }

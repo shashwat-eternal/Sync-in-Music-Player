@@ -277,10 +277,22 @@ body[data-color-scheme="light"] .mood-blob { opacity: 0.35; mix-blend-mode: mult
 .player-inner { position:relative; display:grid; grid-template-columns: 260px 1fr 260px; align-items:center; gap: 18px; padding: 12px 20px; }
 
 .now-playing-block { display:flex; align-items:center; gap:12px; min-width:0; }
+.search-shell input::-webkit-search-cancel-button,
+.search-shell input::-webkit-search-decoration,
+.search-shell input::-webkit-search-results-button,
+.search-shell input::-webkit-search-results-decoration,
+.search-shell input::-ms-clear {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none !important;
+}
+
 .np-art-wrap { position:relative; width:54px; height:54px; border-radius:12px; overflow:hidden; flex-shrink:0; box-shadow: 0 6px 16px rgba(0,0,0,0.4); background:#000; }
 .np-art-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
-.np-yt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; display:none; }
-.np-art-wrap.is-youtube .np-yt-frame { display:block; }
+#ytFrame, iframe#ytFrame, .np-yt-frame { position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; border:0 !important; display:none !important; opacity:0 !important; pointer-events:none !important; }
+.np-art-wrap.is-youtube #ytFrame,
+.np-art-wrap.is-youtube iframe#ytFrame,
+.np-art-wrap.is-youtube .np-yt-frame { display:block !important; opacity:1 !important; pointer-events:auto !important; }
 .np-art-wrap.is-youtube img { display:none; }
 .np-text { min-width:0; }
 .np-title { font-size: 14.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
