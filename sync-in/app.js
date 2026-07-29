@@ -247,6 +247,35 @@ class MusicPlayer {
         if (this.currentSong && this.currentSong.type === 'local') this.showToast(`Couldn't load "${this.currentSong.title}"`, 'error');
       });
     }
+
+    // Silent background audio keep-alive for mobile screen-off playback
+    this.keepAliveAudio = new Audio('data:audio/wav;base64,UklGRikAAABXQVZFZm10IBAAAAABAAARKwAAESsAAAABAAgAZGF0YQAAAAA=');
+    this.keepAliveAudio.loop = true;
+
+    document.addEventListener('visibilitychange', () => {
+      if (this.isPlaying) {
+        this.startKeepAlive();
+        if (this.currentSong?.type === 'youtube' && this.ytReady && this.ytPlayer) {
+          setTimeout(() => {
+            if (this.isPlaying && this.ytPlayer.getPlayerState && this.ytPlayer.getPlayerState() !== 1) {
+              this.ytPlayer.playVideo();
+            }
+          }, 300);
+        }
+      }
+    });
+  }
+
+  startKeepAlive() {
+    if (this.keepAliveAudio) {
+      this.keepAliveAudio.play().catch(() => {});
+    }
+  }
+
+  stopKeepAlive() {
+    if (this.keepAliveAudio) {
+      this.keepAliveAudio.pause();
+    }
   }
 
   debounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
@@ -394,10 +423,12 @@ class MusicPlayer {
     if (this.currentSong.type === 'local') {
       this.audios[this.activeKey].play().then(() => {
         this.isPlaying = true; this.updatePlayPauseIcon(true);
+        this.startKeepAlive();
       }).catch((err) => { console.error(err); this.showToast(`Playback failed for "${this.currentSong.title}"`, 'error'); });
     } else if (this.ytReady && this.ytPlayer) {
       this.ytPlayer.playVideo();
       this.isPlaying = true; this.updatePlayPauseIcon(true);
+      this.startKeepAlive();
     }
   }
 
@@ -405,6 +436,7 @@ class MusicPlayer {
     if (this.currentSong?.type === 'local') this.audios[this.activeKey].pause();
     else if (this.ytReady && this.ytPlayer) this.ytPlayer.pauseVideo();
     this.isPlaying = false; this.updatePlayPauseIcon(false);
+    this.stopKeepAlive();
   }
 
   togglePlayPause() { this.isPlaying ? this.pauseSong() : this.playSong(); }
@@ -444,7 +476,20 @@ class MusicPlayer {
 
   updateMediaSessionState(playing) {
     if (!('mediaSession' in navigator)) return;
-    try { navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; } catch (e) {}
+    try {
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+      if ('setPositionState' in navigator.mediaSession) {
+        const duration = this.getDuration();
+        const currentTime = this.getCurrentTime();
+        if (duration > 0 && currentTime >= 0 && currentTime <= duration) {
+          navigator.mediaSession.setPositionState({
+            duration: duration,
+            playbackRate: 1,
+            position: currentTime
+          });
+        }
+      }
+    } catch (e) {}
   }
 
   handleTrackEnded() {
@@ -538,9 +583,26 @@ class MusicPlayer {
 
   handleYtStateChange(e) {
     const YTS = window.YT.PlayerState;
-    if (e.data === YTS.PLAYING) { this.isPlaying = true; this.updatePlayPauseIcon(true); }
-    else if (e.data === YTS.PAUSED) { this.isPlaying = false; this.updatePlayPauseIcon(false); }
-    else if (e.data === YTS.ENDED) { this.handleTrackEnded(); }
+    if (e.data === YTS.PLAYING) {
+      this.isPlaying = true;
+      this.updatePlayPauseIcon(true);
+      this.startKeepAlive();
+    } else if (e.data === YTS.PAUSED) {
+      // Prevent mobile OS / YouTube iframe from auto-pausing when tab is hidden or screen is off
+      if (document.hidden && this.isPlaying) {
+        setTimeout(() => {
+          if (this.isPlaying && this.ytPlayer && this.ytPlayer.playVideo) {
+            this.ytPlayer.playVideo();
+          }
+        }, 200);
+        return;
+      }
+      this.isPlaying = false;
+      this.updatePlayPauseIcon(false);
+      this.stopKeepAlive();
+    } else if (e.data === YTS.ENDED) {
+      this.handleTrackEnded();
+    }
   }
 
   /* ============================= CROSSFADE (local ↔ local) ============================= */
